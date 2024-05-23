@@ -16,7 +16,7 @@ public class NetworkingClient {
                 String msg = "";
 
                 // Creat client socket
-                client = new Socket.(InetAddress.getLocalHost(), portnumber);
+                client = new Socket(InetAddress.getLocalHost(), portnumber);
                 System.out.println("Client socket is created " + client);
 
                 // Creat an output stream of the client socket
@@ -27,7 +27,30 @@ public class NetworkingClient {
                 InputStream clientIn = client.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(clientIn));
 
-                // Creat
+                // Creat BufferedReader for a standard input
+                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+                System.out.println("Enter your name. Type bye to exit. ");
+
+                // Read data from standard input device and write it
+                // to the output stream of the client socket.
+                msg = stdIn.readLine().trim();
+                pw.println(msg);
+
+                // Read data from the input stream of the client socket.
+                System.out.println("Message returned from the server = " + br.readLine());
+
+                pw.close();
+                br.close();
+                client.close();
+
+                // Stop the operation
+                if (msg.equalsIgnoreCase("bye")){
+                    break;
+                }
+            }
+            catch (IOException ie){
+                System.out.println("I/O error " + ie);
             }
         }
     }
